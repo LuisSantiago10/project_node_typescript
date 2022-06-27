@@ -1,5 +1,7 @@
-import express from "express";
-import routerTask from "../routes/task";
+import express from 'express';
+import db from '../db/connection';
+import cors from 'cors';
+import routerTask from '../routes/task';
 
 interface PathConfig{
     task  : string
@@ -20,24 +22,22 @@ class Server{
             // 'login' : '/api/login'
         }
 
-        // this.dbConnection();
+        this.dbConnection();
         this.middlewares();
         this.routes();
     }
 
-    // async dbConnection(){
-    //     try {
-    //         await db.authenticate();
-    //         // console.log('database online');
-    //     } catch (error) {
-    //         throw new Error( error );
-    //     }
-    // }
+    async dbConnection(){
+        try {
+            await db.authenticate();
+            console.log('database online');
+        } catch (error) {
+            throw new Error( 'error in conexion' );
+        }
+    }
 
     middlewares(){
-
-        // this.app.use( cors() );
-
+        this.app.use( cors() );
         this.app.use( express.json() );
     }
 
